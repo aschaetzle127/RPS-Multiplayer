@@ -1,3 +1,4 @@
+$(document).ready(function() {
 var config = {
     apiKey: "AIzaSyCNJ_DPLP31sYDRbogZGtbT6_qO5xZL-mw",
     authDomain: "rps-multiplayer-cbf81.firebaseapp.com",
@@ -9,7 +10,6 @@ var config = {
   
   firebase.initializeApp(config);
 
-//$(document).ready(function() {
     // Firebase variables
     var dBase = firebase.database();
     var playersRef = dBase.ref("/players");
@@ -48,7 +48,7 @@ var config = {
     }
 
     function showLoggedInScreen() {
-        $("#pre-connection, .pre-login, .pending-login").hide();
+        $(".pre-connection, .pre-login, .pending-login").hide();
         $(".post-login").show();
 
         if(playerNum == "1") {
@@ -77,6 +77,11 @@ var config = {
             showLoginScreen();
         }
     }, errorHandler);
+
+    function showLoginScreen() {
+        $(".pre-connection, .pending-login, .post-login, .selections").hide();
+        $(".pre-login").show();
+    }
 
     //Chats on chats on chats
 
@@ -124,7 +129,7 @@ var config = {
 
     playersRef.on("child_removed", function(childSnap) {
         chatRef.push({
-            userId: "system";
+            userId: "system",
             text: childSnap.val().name + " has disconnected"
         });
 
@@ -137,7 +142,7 @@ var config = {
         };
 
         if(!player1LoggedIn && !player2LoggedIn) {
-            charRef.remove();
+            chatRef.remove();
         }
     }, errorHandler);
 
@@ -194,7 +199,7 @@ var config = {
         if (!playerNum) return;
 
         playerObject.choice = this.id;
-        dBase.ref("/players/" + playerNumber).set(playerObject);
+        dBase.ref("/players/" + playerNum).set(playerObject);
 
         $(".p" + playerNum + "-selctions").hide();
         $(".p" + playerNum + "-selections-reveal").text(this.id).show();
@@ -224,7 +229,7 @@ var config = {
 
         if(p1choice === p2choice) {
             $("#feedback").text("It's a Tie!");
-        } else if(p1choice == "rock" && p2choice == "scissors") || (p1choice == "paper" && p2choice == "rock" || (p1choice == "scissors" && p2choice == "paper")) {
+        } else if((p1choice == "rock" && p2choice == "scissors") || (p1choice == "paper" && p2choice == "rock" || (p1choice == "scissors" && p2choice == "paper"))) {
             $("#feedback").html("<small>" + p1choice + " beats " + p2choice + "</small><br/><br/>" + player1Object.name + " wins!!");
 
             if (playerNum == "1") {
@@ -259,8 +264,8 @@ var config = {
     function updateStats() {
         ["1", "2"].forEach(playerNum => {
             var obj = window["player" + playerNum + "Object"];
-            $("#p" + playerNum + "-wins").text(obj.wins);
-            $("#p" + playerNum + "-losses").text(obj.losses);
+           // $("#p" + playerNum + "-wins").text(obj.wins);
+            //$("#p" + playerNum + "-losses").text(obj.losses);
         });
 
         player1LoggedIn ? $(".p1-stats").show() : $(".p1-stats").hide();
@@ -289,7 +294,5 @@ var config = {
              $(".p" + playerNumber + "-pending-selection").hide();
          }
      }
-
-     <script src="https://www.gstatic.com/firebasejs/5.9.2/firebase.js"></script>
     
-//});
+});
