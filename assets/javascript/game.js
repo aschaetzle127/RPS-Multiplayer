@@ -304,12 +304,6 @@ function updateStats() {
   player2LoggedIn ? $(".p2-stats").show() : $(".p2-stats").hide();
 }
 
-/**
- * Update the player box state
- * @param {string} playerNum 1 or 2
- * @param {boolean} exists
- * @param {boolean} choice
- */
 function updatePlayerBox(playerNum, exists, choice) {
   if (exists) {
     if (playerNumber != playerNum) {
